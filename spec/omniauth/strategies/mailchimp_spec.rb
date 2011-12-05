@@ -13,7 +13,7 @@ describe OmniAuth::Strategies::Mailchimp do
     end
   end
 
-  #it_should_behave_like 'an OAuth2 strategy'
+  it_should_behave_like 'an oauth2 strategy'
 
   describe '#client' do
     it 'has correct MailChimp site' do

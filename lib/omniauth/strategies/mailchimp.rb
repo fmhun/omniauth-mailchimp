@@ -1,17 +1,17 @@
-require 'omniauth/oauth'
+require 'omniauth/strategies/oauth2'
 require 'multi_json'
 
 module OmniAuth
   module Strategies
     class Mailchimp < OmniAuth::Strategies::OAuth2
       
-      def initialize(app, client_id=nil, client_secret=nil, options={}, &block)
-        client_options = {
-          :authorize_url => 'https://login.mailchimp.com/oauth2/authorize',
-          :token_url => 'https://login.mailchimp.com/oauth2/token',
-        }
-        super(app, :mailchimp, client_id, client_secret, client_options, options, &block)
-      end
+      option :name, "mailchimp"
+      
+      option :client_options, {
+        :site => "https://login.mailchimp.com",
+        :authorize_url => '/oauth2/authorize',
+        :token_url => '/oauth2/token'
+      }
       
       def auth_hash
         data = user_data

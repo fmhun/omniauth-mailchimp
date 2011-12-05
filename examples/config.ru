@@ -4,32 +4,30 @@ require 'sinatra'
 require 'omniauth'
 require 'omniauth-mailchimp'
 
-OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE
+get '/' do
+  <<-HTML
+  <ul>
+    <li><a href='/auth/mailchimp'>Sign in with MailChimp</a></li>
+  </ul>
+  HTML
+end
 
-class App < Sinatra::Base
-  get '/' do
-    <<-HTML
-    <ul>
-      <li><a href='/auth/mailchimp'>Sign in with Mailchimp</a></li>
-    </ul>
-    HTML
-  end
+get '/auth/:provider/callback' do
+  content_type 'text/plain'
+  token = request.env['omniauth.auth']['credentials']['token']
+  dc = request.env['omniauth.auth']['extra']['user_hash']['dc']
+  "Standard API key is #{token}-#{dc}".inspect rescue "No data"
+end
 
-  get '/auth/:provider/callback' do
-    content_type 'text/plain'
-    request.env['omniauth.auth'].to_hash.inspect rescue "No Data"
-  end
-  
-  get '/auth/failure' do
-    content_type 'text/plain'
-    request.env['omniauth.auth'].to_hash.inspect rescue "No Data"
-  end
+get '/auth/failure' do
+  content_type 'text/plain'
+  request.env['omniauth.auth'].to_hash.inspect rescue "No Data"
 end
 
 use Rack::Session::Cookie, :secret => ENV['RACK_COOKIE_SECRET']
 
 use OmniAuth::Builder do
-  provider :mailchimp, "924877707893", "b8c494ebef4e4bb3879daa69e8302896", {}
+  provider :mailchimp, ENV["MC_KEY"], ENV["MC_SECRET"]
 end
 
-run App.new
+#run App.new

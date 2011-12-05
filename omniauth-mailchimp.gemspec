@@ -8,7 +8,7 @@ Gem::Specification.new do |gem|
   gem.email = ["florian.mhun@gmail.com"]
   gem.description = %q{MailChimp OAuth2 strategy for OmniAuth 1.0}
   gem.summary = %q{MailChimp OAuth2 strategy for OmniAuth 1.0}
-  gem.homepage = "floomoon.org/project/omniauth-mailchimp"
+  gem.homepage = "http://floomoon.org/project/omniauth-mailchimp"
 
   gem.executables = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   gem.files = `git ls-files`.split("\n")

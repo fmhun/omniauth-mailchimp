@@ -12,7 +12,7 @@ module OmniAuth
         :authorize_url => '/oauth2/authorize',
         :token_url => '/oauth2/token'
       }
-      
+=begin
       def auth_hash
         data = user_data
         OmniAuth::Utils.deep_merge(
@@ -22,6 +22,26 @@ module OmniAuth
             }
           }
         )
+      end
+=end      
+
+      uid {
+        raw_info["user_id"]
+      }
+
+      info {
+        :first_name => raw_info["contact"]["fname"],
+        :last_name => raw_info["contact"]["lname"],
+        :email => raw_info["contact"]["email"]
+      }
+      
+      extra {
+        :raw_info => raw_info
+      }
+
+      def raw_info
+        #user_data
+        @raw_info ||= MultiJson.parse(@access_token.get("http://us4.api.mailchimp.com/1.3/?method=getAccountDetails"))
       end
 
       def user_data

@@ -6,9 +6,14 @@ require 'omniauth-mailchimp'
 
 get '/' do
   <<-HTML
-  <ul>
-    <li><a href='/auth/mailchimp'>Sign in with MailChimp</a></li>
-  </ul>
+	<div>
+		Your credentials are :
+		<ul>
+			<li>client id : #{ENV["MC_KEY"]}</li>
+			<li>secret key : #{ENV["MC_SECRET"]}</li>
+		</ul>
+	</div>
+  <a href='/auth/mailchimp'>Sign in with MailChimp</a>
   HTML
 end
 
@@ -29,5 +34,3 @@ use Rack::Session::Cookie, :secret => ENV['RACK_COOKIE_SECRET']
 use OmniAuth::Builder do
   provider :mailchimp, ENV["MC_KEY"], ENV["MC_SECRET"]
 end
-
-#run App.new

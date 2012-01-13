@@ -17,7 +17,6 @@ module OmniAuth
         data = user_data
         OmniAuth::Utils.deep_merge(
           super, {
-            'uid' => @access_token.client.id,
             'extra'=> {
               'user_hash' => data
             }

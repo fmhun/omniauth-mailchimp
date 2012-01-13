@@ -12,16 +12,33 @@ module OmniAuth
         :authorize_url => '/oauth2/authorize',
         :token_url => '/oauth2/token'
       }
+
+      uid {
+        raw_info["user_id"]
+      }
+
+      info do
+        { 
+          :first_name => raw_info["contact"]["fname"],
+          :last_name => raw_info["contact"]["lname"],
+          :email => raw_info["contact"]["email"] 
+        }
+      end
       
-      def auth_hash
-        data = user_data
-        OmniAuth::Utils.deep_merge(
-          super, {
-            'extra'=> {
-              'user_hash' => data
-            }
-          }
-        )
+      extra do 
+        { 
+          :metadata => user_data,
+          :raw_info => raw_info
+        }
+      end
+
+      def raw_info
+        @raw_info ||= begin
+          data = user_data
+          endpoint = data["api_endpoint"]
+          apikey = "#{@access_token.token}-#{data['dc']}"
+          @access_token.get("#{endpoint}/1.3/?method=getAccountDetails&apikey=#{apikey}").parsed
+        end
       end
 
       def user_data

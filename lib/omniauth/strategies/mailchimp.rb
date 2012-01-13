@@ -29,15 +29,15 @@ module OmniAuth
         raw_info["user_id"]
       }
 
-      info {
-        :first_name => raw_info["contact"]["fname"],
-        :last_name => raw_info["contact"]["lname"],
-        :email => raw_info["contact"]["email"]
-      }
+      info do
+        { :first_name => raw_info["contact"]["fname"],
+          :last_name => raw_info["contact"]["lname"],
+          :email => raw_info["contact"]["email"] }
+      end
       
-      extra {
-        :raw_info => raw_info
-      }
+      extra do 
+        { :raw_info => raw_info }
+      end
 
       def raw_info
         #user_data

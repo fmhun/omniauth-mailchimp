@@ -20,7 +20,7 @@ end
 get '/auth/:provider/callback' do
   content_type 'text/plain'
 	token = request.env['omniauth.auth']['credentials']['token']
-  dc = request.env['omniauth.auth']['extra']['user_hash']['dc']
+  dc = request.env['omniauth.auth']['extra']['metadata']['dc']
   "Standard API key is #{token}-#{dc}".inspect rescue "No data"
 end
 

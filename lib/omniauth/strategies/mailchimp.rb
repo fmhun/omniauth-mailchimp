@@ -13,6 +13,12 @@ module OmniAuth
         :token_url => '/oauth2/token'
       }
 
+      def request_phase
+        req = Rack::Request.new(@env)
+        options.update(req.params)
+        super
+      end
+
       uid {
         raw_info["user_id"]
       }
@@ -30,12 +36,6 @@ module OmniAuth
           :metadata => user_data,
           :raw_info => raw_info
         }
-      end
-
-      def request_phase
-        req = Rack::Request.new(@env)
-        options.update(req.params)
-        super
       end
 
       def raw_info

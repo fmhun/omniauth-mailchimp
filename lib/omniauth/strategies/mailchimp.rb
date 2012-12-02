@@ -4,29 +4,35 @@ require 'multi_json'
 module OmniAuth
   module Strategies
     class Mailchimp < OmniAuth::Strategies::OAuth2
-      
+
       option :name, "mailchimp"
-      
+
       option :client_options, {
         :site => "https://login.mailchimp.com",
         :authorize_url => '/oauth2/authorize',
         :token_url => '/oauth2/token'
       }
 
+      def request_phase
+        req = Rack::Request.new(@env)
+        options.update(req.params)
+        super
+      end
+
       uid {
         raw_info["user_id"]
       }
 
       info do
-        { 
+        {
           :first_name => raw_info["contact"]["fname"],
           :last_name => raw_info["contact"]["lname"],
-          :email => raw_info["contact"]["email"] 
+          :email => raw_info["contact"]["email"]
         }
       end
-      
-      extra do 
-        { 
+
+      extra do
+        {
           :metadata => user_data,
           :raw_info => raw_info
         }

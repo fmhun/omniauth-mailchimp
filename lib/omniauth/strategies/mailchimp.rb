@@ -43,7 +43,15 @@ module OmniAuth
           data = user_data
           endpoint = data["api_endpoint"]
           apikey = "#{@access_token.token}-#{data['dc']}"
-          @access_token.get("#{endpoint}/2.0/helper/account-details?apikey=#{apikey}").parsed
+          response = @access_token.get("#{endpoint}/2.0/helper/account-details?apikey=#{apikey}").parsed
+          if response["error"]
+            case response["code"]
+            when 109
+              fail!(:invalid_credentials, response["error"])
+            end
+          else
+            response
+          end
         end
       end
 

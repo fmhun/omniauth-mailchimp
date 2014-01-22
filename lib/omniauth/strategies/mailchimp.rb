@@ -43,7 +43,7 @@ module OmniAuth
           data = user_data
           endpoint = data["api_endpoint"]
           apikey = "#{@access_token.token}-#{data['dc']}"
-          @access_token.get("#{endpoint}/1.3/?method=getAccountDetails&apikey=#{apikey}").parsed
+          @access_token.get("#{endpoint}/2.0/helper/account-details?apikey=#{apikey}").parsed
         end
       end
 

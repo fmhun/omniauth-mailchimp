@@ -24,10 +24,12 @@ module OmniAuth
       }
 
       info do
+        contact = raw_info["contact"] || {}
+
         {
-          :first_name => raw_info["contact"]["fname"],
-          :last_name => raw_info["contact"]["lname"],
-          :email => raw_info["contact"]["email"]
+          :first_name => contact["fname"],
+          :last_name => contact["lname"],
+          :email => contact["email"]
         }
       end
 

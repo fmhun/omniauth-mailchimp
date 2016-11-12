@@ -45,14 +45,14 @@ module OmniAuth
           data = user_data
           endpoint = data["api_endpoint"]
           apikey = "#{@access_token.token}-#{data['dc']}"
-          response = @access_token.get("#{endpoint}/2.0/helper/account-details?apikey=#{apikey}").parsed
-          if response["error"]
-            case response["code"]
-            when 109
-              fail!(:invalid_credentials, response["error"])
-            end
+          @access_token.get("#{endpoint}/2.0/helper/account-details?apikey=#{apikey}").parsed
+        rescue ::OAuth2::Error => e
+          case e.response.parsed["name"]
+          when "User_InvalidRole"
+            # Defer invalid credential errors
+            {}
           else
-            response
+            raise e
           end
         end
       end

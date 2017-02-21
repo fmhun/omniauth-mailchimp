@@ -36,7 +36,8 @@ module OmniAuth
       extra do
         {
           :metadata => user_data,
-          :raw_info => raw_info
+          :raw_info => raw_info,
+          :api_token_with_dc => "#{@access_token.token}-#{user_data['dc']}",
         }
       end
 

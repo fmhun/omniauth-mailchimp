@@ -1,3 +1,5 @@
+:warning: **THIS REPOSITORY IS NOT MAINTAINED ANYMORE. FOR PULL REQUEST AND ISSUE REPORTING PLEASE [SEE THE NEW OFFICIAL REPOSITORY](https://github.com/stevenkaras/omniauth-mailchimp). STEVENKARAS IS NOW THE MAIN OWNER OF THE OMNIAUTH-MAILCHIMP GEM.**
+
 #Mailchimp Strategie
 
 MailChimp OAuth2 strategy for OmniAuth 1.0
